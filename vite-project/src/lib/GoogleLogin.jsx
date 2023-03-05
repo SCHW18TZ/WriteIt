@@ -6,35 +6,40 @@ import { db, auth, provider } from "../firebase";
 import { signInWithPopup } from "firebase/auth";
 import { addDoc, query, where, getDocs, collection } from "firebase/firestore";
 import { serverTimestamp } from "firebase/firestore";
+import { useAuthState } from "react-firebase-hooks/auth";
+
 const GoogleLogin = () => {
+  const [user] = useAuthState(auth);
   let navigate = useNavigate();
   const userCollectionRef = collection(db, "users");
 
   const LoginWithGoogle = async () => {
     const result = await signInWithPopup(auth, provider);
-    navigate(`/`);
+    navigate(`/setup`);
     let q = query(userCollectionRef, where("uid", "==", result.user.uid));
     let querySnap = await getDocs(q);
     if (querySnap.size > 0) {
       return;
     } else {
       addDoc(userCollectionRef, {
-        name: result.user.displayName.split(" ").join("_").trimEnd(),
         email: result.user.email,
-        profilePhoto: result.user.photoURL,
         uid: result.user.uid,
         createdAt: serverTimestamp(),
         verified: false,
         roles: "Member",
-        fullName: "",
-        bio: "",
         followers: [],
+        setupCompletedHai: false,
         following: [],
       });
     }
   };
 
-  return <GoogleButton onClick={LoginWithGoogle} className="google-button" />;
+  return (
+    <div className="LoginPage">
+      <Toaster />
+      <GoogleButton onClick={LoginWithGoogle} />
+    </div>
+  );
 };
 
 export default GoogleLogin;

@@ -1,10 +1,6 @@
 import GoogleLogin from "../lib/GoogleLogin";
 
 const Login = () => {
-  return (
-    <div className="LoginPage">
-      <GoogleLogin />
-    </div>
-  );
+  return <GoogleLogin />;
 };
 export default Login;
