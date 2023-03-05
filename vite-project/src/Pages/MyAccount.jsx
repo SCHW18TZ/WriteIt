@@ -12,6 +12,7 @@ const MyAccount = ({ user }) => {
   const [Following, setFollowing] = useState();
   const [numberOfFollowers, setNumberOfFollowers] = useState();
   const [numberOfFollowing, setNumberOfFollowing] = useState();
+  const [Completed, setCompleted] = useState();
   const CheckIfUserFollows = async () => {
     const userCollectionRef = collection(db, "users");
 
@@ -92,13 +93,13 @@ const MyAccount = ({ user }) => {
   };
 
   useEffect(() => {
+    checkCompletion();
     getNumberOfFollowers();
     getNumberOfFollowing();
   }, [user]);
-
   return (
     <>
-      {user.setupComplatedHai ? (
+      {Completed ? (
         <>
           <div className="UserPage">
             <Toaster />

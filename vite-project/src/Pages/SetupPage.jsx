@@ -86,20 +86,34 @@ const SetupPage = () => {
   };
 
   return (
-    <div className="Setup">
-      <Toaster />
-      <h1>Setup</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Choose A username"
-          onChange={usernameQuery}
-        />
-        <input type="text" placeholder="Bio" />
-        <input type="file" name="" id="" />
-        <button type="submit">Submit</button>
-      </form>
-    </div>
+    <>
+      {user ? (
+        <>
+          {user.setupComplatedHai ? (
+            <p>Your Setup is already completed!</p>
+          ) : (
+            <>
+              <div className="Setup">
+                <Toaster />
+                <h1>Setup</h1>
+                <form onSubmit={handleSubmit}>
+                  <input
+                    type="text"
+                    placeholder="Choose A username"
+                    onChange={usernameQuery}
+                  />
+                  <input type="text" placeholder="Bio" />
+                  <input type="file" name="" id="" />
+                  <button type="submit">Submit</button>
+                </form>
+              </div>
+            </>
+          )}
+        </>
+      ) : (
+        <p>loading</p>
+      )}
+    </>
   );
 };
 
