@@ -8,7 +8,7 @@ import { addDoc, query, where, getDocs, collection } from "firebase/firestore";
 import { serverTimestamp } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 
-const GoogleLogin = () => {
+const GoogleLogin = ({ userInfo }) => {
   const [user] = useAuthState(auth);
   let navigate = useNavigate();
   const userCollectionRef = collection(db, "users");

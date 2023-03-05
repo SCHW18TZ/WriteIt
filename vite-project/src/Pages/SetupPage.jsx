@@ -15,8 +15,8 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { storage } from "../firebase";
 
-const SetupPage = () => {
-  const user = useAuthState(auth);
+const SetupPage = ({ user }) => {
+  const Currentuser = useAuthState(auth);
   let navigate = useNavigate();
   const [username, setusername] = useState("");
   const [nameInput, setnameInput] = useState("");
@@ -60,7 +60,7 @@ const SetupPage = () => {
     }
 
     const userCollectionRef = collection(db, "users");
-    const userQuery = query(userCollectionRef, where("uid", "==", user[0].uid));
+    const userQuery = query(userCollectionRef, where("uid", "==", user.uid));
     const userQuerySnap = await getDocs(userQuery);
 
     const ImageRef = ref(storage, `ProfilePics/${file.name + user.uid}`);
@@ -87,31 +87,25 @@ const SetupPage = () => {
 
   return (
     <>
-      {user ? (
-        <>
-          {user.setupComplatedHai ? (
-            <p>Your Setup is already completed!</p>
-          ) : (
-            <>
-              <div className="Setup">
-                <Toaster />
-                <h1>Setup</h1>
-                <form onSubmit={handleSubmit}>
-                  <input
-                    type="text"
-                    placeholder="Choose A username"
-                    onChange={usernameQuery}
-                  />
-                  <input type="text" placeholder="Bio" />
-                  <input type="file" name="" id="" />
-                  <button type="submit">Submit</button>
-                </form>
-              </div>
-            </>
-          )}
-        </>
+      {user.setupCompletedHai ? (
+        <p>Your Setup is already completed!</p>
       ) : (
-        <p>loading</p>
+        <>
+          <div className="Setup">
+            <Toaster />
+            <h1>Setup</h1>
+            <form onSubmit={handleSubmit}>
+              <input
+                type="text"
+                placeholder="Choose A username"
+                onChange={usernameQuery}
+              />
+              <input type="text" placeholder="Bio" />
+              <input type="file" name="" id="" />
+              <button type="submit">Submit</button>
+            </form>
+          </div>
+        </>
       )}
     </>
   );

@@ -6,7 +6,7 @@ import { addDoc, query, where, getDocs, collection } from "firebase/firestore";
 import { doc, updateDoc, getDoc } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import verifiedIcon from "../assets/verifiedIcon.png";
-
+import { Link } from "react-router-dom";
 const MyAccount = ({ user }) => {
   let navigate = useNavigate();
   const [Following, setFollowing] = useState();
@@ -93,13 +93,13 @@ const MyAccount = ({ user }) => {
   };
 
   useEffect(() => {
-    checkCompletion();
     getNumberOfFollowers();
     getNumberOfFollowing();
   }, [user]);
+  console.log(user.name, user.setupCompletedHai, user);
   return (
     <>
-      {Completed ? (
+      {user.setupCompletedHai ? (
         <>
           <div className="UserPage">
             <Toaster />
@@ -136,7 +136,10 @@ const MyAccount = ({ user }) => {
         </>
       ) : (
         <>
-          <p>Please complete your setup first</p>
+          <p>
+            Please complete your setup first by clicking on this{" "}
+            <Link to="/setup">Link </Link>
+          </p>
         </>
       )}
     </>
